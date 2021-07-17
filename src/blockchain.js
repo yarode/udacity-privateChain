@@ -64,6 +64,7 @@ class Blockchain {
     _addBlock(block) {
         let self = this;
         console.log(`Adding block at height: ${self.chain.length}`)
+        this.validateChain().then(errors => errors.length != 0 ? console.log('Chain Validated') : errors.forEach(error => console.log('Error: ', error)))
         return new Promise(async (resolve, reject) => {
           let height = self.chain.length
           block.previousBlockHash = self.chain[height - 1] ? self.chain[height - 1].hash : null
@@ -115,9 +116,11 @@ class Blockchain {
           const currentTime = parseInt(new Date().getTime().toString().slice(0, -3))
           if((currentTime - requestTime) >= (5 * 60)) {
             // reject if request timed out
+            console.log(currentTime)
+            console.log(requestTime)
             reject("Request Timed Out")
           }
-          if(!bitcoinMesage.verify(message, address, signature)) {
+          if(!bitcoinMessage.verify(message, address, signature)) {
             // reject if message is invalid
             reject("Invalid Message")
           }
@@ -168,6 +171,7 @@ class Blockchain {
     getStarsByWalletAddress (address) {
         let self = this;
         let stars = [];
+        this.validateChain().then(errors => errors.length != 0 ? console.log('Chain Validated') : errors.forEach(error => console.log('Error: ', error)))
         return new Promise((resolve, reject) => {
           let ownedBlocks = self.chain.filter(block => block.owner === address)
           if(ownedBlocks.length > 0) {
