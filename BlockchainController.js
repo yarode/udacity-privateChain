@@ -21,7 +21,6 @@ class BlockchainController {
 
     // Enpoint to Get a Block by Height (GET Endpoint)
     getBlockByHeight() {
-        console.log(`Requesting block by height`)
         this.app.get("/block/height/:height", async (req, res) => {
             if(req.params.height) {
                 const height = parseInt(req.params.height);
