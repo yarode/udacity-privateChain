@@ -113,8 +113,7 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
           const requestTime = parseInt(message.split(':')[1])
           const currentTime = parseInt(new Date().getTime().toString().slice(0, -3))
-          const elapsedTime = currentTime - requestTime
-          if(elapsedTime >= (5 * 60)) {
+          if((currentTime - requestTime) >= (5 * 60)) {
             // reject if request timed out
             reject("Request Timed Out")
           }
@@ -191,7 +190,7 @@ class Blockchain {
         return new Promise(async (resolve, reject) => {
           let height = 0
           for(let block of self.chain) {
-            if(await block.validate) {
+            if(await block.validate()) {
               if(height > 0) {
                 let prevBlock = self.chain[height - 1]
                 if(block.previousBlockHash !== prevBlock.hash) {
