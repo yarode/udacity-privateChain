@@ -64,7 +64,6 @@ class Blockchain {
      */
     _addBlock(block) {
         let self = this;
-        console.log(`Adding block at height: ${self.chain.length}`)
         return new Promise(async (resolve, reject) => {
           const validated = await this.validateChain()
           if(validated.length > 0) {

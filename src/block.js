@@ -40,12 +40,11 @@ class Block {
         return new Promise(async (resolve, reject) => {
             // Save in auxiliary variable the current block hash
             const hash = self.hash
-            console.log(hash)
             self.hash = null
 
             // Recalculate the hash of the Block
             self.hash = await SHA256(JSON.stringify(self)).toString()
-            console.log(self.hash)
+
             // Comparing if the hashes changed
             // Returning the Block is valid
             // Returning the Block is not valid
