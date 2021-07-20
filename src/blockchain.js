@@ -11,6 +11,7 @@
 const SHA256 = require('crypto-js/sha256');
 const BlockClass = require('./block.js');
 const bitcoinMessage = require('bitcoinjs-message');
+const hex2ascii = require('hex2ascii')
 
 class Blockchain {
 
@@ -65,7 +66,7 @@ class Blockchain {
         let self = this;
         console.log(`Adding block at height: ${self.chain.length}`)
         return new Promise(async (resolve, reject) => {
-          const validated = this.validateChain()
+          const validated = await this.validateChain()
           if(validated.length > 0) {
             validated.forEach(error => console.log('Error: ', error))
             reject("Invalid Chain")

@@ -41,9 +41,10 @@ class Block {
             // Save in auxiliary variable the current block hash
             const hash = self.hash
             console.log(hash)
+            self.hash = null
 
             // Recalculate the hash of the Block
-            self.hash = await SHA256(JSON.stringify({ ...self, hash: null})).toString()
+            self.hash = await SHA256(JSON.stringify(self)).toString()
             console.log(self.hash)
             // Comparing if the hashes changed
             // Returning the Block is valid
@@ -67,7 +68,7 @@ class Block {
         return new Promise(async (resolve, reject) => {
           // Decoding the data to retrieve the JSON representation of the object
           // Parse the data to an object to be retrieve.
-          let bodyObj = await JSON.parse(hex2ascii(self.body))
+          let bodyObj = JSON.parse(hex2ascii(self.body))
           // Resolve with the data if the object isn't the Genesis block
           if(dataObj.height > 0) {
             resolve(data)
