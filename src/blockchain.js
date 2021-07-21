@@ -183,7 +183,13 @@ class Blockchain {
         return new Promise((resolve, reject) => {
           let ownedBlocks = self.chain.filter(block => block.owner === address)
           if(ownedBlocks.length > 0) {
-            stars = ownedBlocks.map(block => JSON.parse(hex2ascii(block.body)))
+            for(let block of ownedBlocks) {
+              block.getBData().then(star => {
+                if(star) {
+                  stars.push(star)
+                }
+              })
+            }
             resolve(stars)
           }
           reject('address not found')
